@@ -1,0 +1,17 @@
+﻿/* Scoped styles to avoid affecting the master page */
+.prescription-form-container {
+    max-width: 600px;
+    margin: 40px auto 20px; /* Adds 40px top margin for spacing */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+    .prescription-form-container h2 {
+        margin-bottom: 20px;
+    }
+
+    .prescription-form-container .w3-input {
+        margin-bottom: 15px;
+    }

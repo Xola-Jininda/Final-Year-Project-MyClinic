@@ -1,0 +1,66 @@
+﻿.dashboard-container {
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative; /* Enables positioning adjustments */
+    left: 20px; /* Moves the container slightly to the right */
+}
+
+    .dashboard-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2e7d32;
+    }
+
+.grid-view {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+    .grid-view th, .grid-view td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .grid-view th {
+        background-color: #f4f4f4;
+    }
+
+    .grid-view tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .grid-view tr:hover {
+        background-color: #f1f1f1;
+    }
+
+.btn-cancel, .btn-manage {
+    display: inline-block; /* Ensures proper alignment */
+    background-color: green; /* Default to green for manage button */
+    color: #FFFFFF; /* White font */
+    padding: 10px 20px; /* Expand the button size */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Slightly rounded corners */
+    font-size: 14px; /* Increase font size */
+    cursor: pointer; /* Change cursor on hover */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    margin: 0 5px; /* Adds some spacing between buttons */
+}
+
+.btn-cancel {
+    background-color: #FF0000; /* Red background for cancel */
+}
+
+    .btn-cancel:hover {
+        background-color: #CC0000; /* Darker red on hover */
+    }
+
+.btn-manage:hover {
+    background-color: darkgreen; /* Darker green on hover */
+}

@@ -1,0 +1,28 @@
+﻿.grid-view {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+    .grid-view th, .grid-view td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .grid-view th {
+        background-color: #f4f4f4;
+    }
+
+    .grid-view tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .grid-view tr:hover {
+        background-color: #f1f1f1;
+    }
+
+.w3-main {
+    margin-left: 300px; /* Aligning with dashboard main content margin */
+    margin-top: 43px; /* Aligning with dashboard top margin */
+}

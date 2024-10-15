@@ -1,0 +1,45 @@
+﻿.summary-container {
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+    .summary-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2e7d32;
+    }
+
+    .summary-container div {
+        margin-bottom: 15px;
+    }
+
+label {
+    font-weight: bold;
+}
+
+.value {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.button {
+    display: block;
+    width: 100px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: lightgreen;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    .button:hover {
+        background-color: green;
+    }

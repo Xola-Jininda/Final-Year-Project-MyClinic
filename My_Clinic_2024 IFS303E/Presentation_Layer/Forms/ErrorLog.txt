@@ -1,0 +1,8 @@
+2024/10/13 15:31:35: INFO - Attempting to connect to SMTP server mail.cosmartic.co.za on port 587
+2024/10/13 15:31:35: ERROR - General Exception: An error occurred while attempting to establish an SSL or TLS connection.
+
+The server's SSL certificate could not be validated for the following reasons:
+• The server certificate has the following errors:
+  • The revocation function was unable to check revocation for the certificate.
+
+

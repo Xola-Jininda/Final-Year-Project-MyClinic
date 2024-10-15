@@ -1,0 +1,299 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Smartersoft.Identity.Client.Assertion</name>
+    </assembly>
+    <members>
+        <member name="T:Smartersoft.Identity.Client.Assertion.CertificateInfo">
+            <summary>
+            Info about a certificate stored in the KeyVault
+            </summary>
+        </member>
+        <member name="P:Smartersoft.Identity.Client.Assertion.CertificateInfo.CertificateName">
+            <summary>
+            Name of the certificate
+            </summary>
+        </member>
+        <member name="P:Smartersoft.Identity.Client.Assertion.CertificateInfo.Kid">
+            <summary>
+            Base64Url encoded hash of certificate, used in the client assertion
+            </summary>
+        </member>
+        <member name="P:Smartersoft.Identity.Client.Assertion.CertificateInfo.KeyId">
+            <summary>
+            KeyId of the private key, used for signing.
+            </summary>
+        </member>
+        <member name="P:Smartersoft.Identity.Client.Assertion.CertificateInfo.ExpiresOn">
+            <summary>
+            When does the certificate expire
+            </summary>
+        </member>
+        <member name="T:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator">
+            <summary>
+            Generator for Signed client assertions
+            </summary>
+            <remarks>Inspired by https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-net-client-assertions </remarks>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.Base64UrlEncode(System.Byte[])">
+            <summary>
+            Encode a byte array to a Base64Url encoded string.
+            </summary>
+            <param name="input">byte array</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GenerateClaimsForAudience(System.String,System.String,System.Int32)">
+            <summary>
+            Generate the required claims for a client assertion
+            </summary>
+            <param name="audience">Audience token is used for eg `https://login.microsoftonline.com/{tenantId}/v2.0` </param>
+            <param name="clientId">Client ID of the calling application</param>
+            <param name="lifetime">optional lifetime</param>
+            <returns></returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GenerateClaimsForTenant(System.String,System.String,System.Int32)">
+            <summary>
+            Generate the required claims for a client assertion
+            </summary>
+            <param name="tenantId">Tenant ID for which this token will be used</param>
+            <param name="clientId">Client ID of the calling application</param>
+            <param name="lifetime">optional lifetime</param>
+            <returns></returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GenerateHeader(System.String)">
+            <summary>
+            Generate the JWT header for the client assertion
+            </summary>
+            <param name="kid">Base64Url encoded hash of the certificate</param>
+            <returns></returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetUnsignedToken(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Generate the first two parts of the client assertion (no signature)
+            </summary>
+            <param name="kid">Base64Url encoded hash of the certificate</param>
+            <param name="assertionClaims">Client assertion claims</param>
+            <returns></returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetUnsignedToken(System.String,System.String,System.String)">
+            <summary>
+            Generate the first two parts of the client assertion (no signature)
+            </summary>
+            <param name="kid">Base64Url encoded hash of the certificate</param>
+            <param name="tenantId">Tenant ID for which this token will be used</param>
+            <param name="clientId">Client ID of the calling application</param>
+            <returns></returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedToken(System.Security.Cryptography.X509Certificates.X509Certificate2,System.String,System.String)">
+            <summary>
+            Creates a signed client assertion, with a provided certificate.
+            </summary>
+            <param name="certificate">X509Certificate2, with private key included!</param>
+            <param name="tenantId">Tenant ID for which this token will be used</param>
+            <param name="clientId">Client ID of the calling application</param>
+            <remarks>Provided only as a reference, use WithClientCertificate on the ConfidentialAppBuilder.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultKey(System.Collections.Generic.IDictionary{System.String,System.Object},System.Uri,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken)">
+            <summary>
+            Create a signed client assertion with a Key in the KeyVault
+            </summary>
+            <param name="assertionClaims">Claims in client assertion, use `GenerateClaimsForAudience` or `GenerateClaimsForTenant`</param>
+            <param name="keyId">KeyId, Uri of the actual key in the KeyVault</param>
+            <param name="kid">The Base64Url encoded hash of the certificate, use GetCertificateInfoFromKeyVault</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="cancellationToken">Use cancellation token if preferred</param>
+            <remarks>Needs Key => Sign permission, the client assertion is signed in the Key Vault. Currently only RSA keys are supported</remarks>
+            <returns>Signed client assertion</returns>
+            <exception cref="T:System.ArgumentNullException">If the keyId or kid is null</exception>
+            <exception cref="T:System.Security.Cryptography.CryptographicException">The local cryptographic provider threw an exception.</exception>
+            <exception cref="T:System.InvalidOperationException">The key is invalid for the current operation.</exception>
+            <exception cref="T:System.NotSupportedException">The operation is not supported with the specified key.</exception>
+            <exception cref="T:Azure.RequestFailedException">The server returned an error. See System.Exception.Message for details returned from the server.</exception>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultKey(System.String,System.String,System.Uri,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken)">
+            <summary>
+            Create a signed client assertion with a Key in the KeyVault
+            </summary>
+            <param name="tenantId">Tenant ID for which you want to use this token</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="keyId">KeyId, Uri of the actual key in the KeyVault</param>
+            <param name="kid">The Base64Url encoded hash of the certificate, use GetCertificateInfoFromKeyVault</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="cancellationToken">Use cancellation token if preferred</param>
+            <remarks>Needs Key => Sign permission, the client assertion is signed in the KeyVault</remarks>
+            <returns>Signed client assertion</returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultKey(System.Uri,System.String,System.String,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken)">
+            <summary>
+            Create a signed client assertion with a Key in the KeyVault
+            </summary>
+            <param name="keyId">KeyId, Uri of the actual key in the KeyVault</param>
+            <param name="kid">The Base64Url encoded hash of the certificate, use GetCertificateInfoFromKeyVault</param>
+            <param name="audience">audience to use in the assertion</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="cancellationToken">Use cancellation token if preferred</param>
+            <remarks>Needs Key => Sign permission, the client assertion is signed in the Key Vault. Currently only RSA keys are supported</remarks>
+            <returns>Signed client assertion</returns>
+            <exception cref="T:System.ArgumentNullException">If the keyId, kid, audience, of clientId are null</exception>
+            <exception cref="T:System.Security.Cryptography.CryptographicException">The local cryptographic provider threw an exception.</exception>
+            <exception cref="T:System.InvalidOperationException">The key is invalid for the current operation.</exception>
+            <exception cref="T:System.NotSupportedException">The operation is not supported with the specified key.</exception>
+            <exception cref="T:Azure.RequestFailedException">The server returned an error. See System.Exception.Message for details returned from the server.</exception>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetCertificateInfoFromKeyVault(System.Uri,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken)">
+            <summary>
+            Get the KeyId and the kid from the KeyVault, this info should be cached. It will hardly ever change.
+            </summary>
+            <param name="vaultUri">Uri of your KeyVault</param>
+            <param name="certificateName">Name of the certificate</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="cancellationToken">Use cancellation token if preferred</param>
+            <remarks>Calls GetCertificate, which will download the public information about the certificate. Always mark your keys as NOT EXPORTABLE, or this is to no use.</remarks>
+            <returns>CertificateInfo</returns>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultCertificate(System.Collections.Generic.IDictionary{System.String,System.Object},System.Uri,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken,Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            Fetches information about the certificate, and then signs a token with the info from the KeyVault
+            </summary>
+            <param name="assertionClaims">Claims in client assertion, use `GenerateClaimsForAudience` or `GenerateClaimsForTenant`</param>
+            <param name="vaultUri">Uri of the KeyVault</param>
+            <param name="certificateName">Name of certificate</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="cancellationToken">Use cancellation token if preferred</param>
+            <param name="memoryCache">(optional) <see cref="T:Microsoft.Extensions.Caching.Memory.IMemoryCache"/> to cache the certificate information</param>
+            <returns>Signed client assertion</returns>
+            <remarks>Either supply the <paramref name="memoryCache"/> or use the <see cref="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultKey(System.Uri,System.String,System.String,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken)"/> method</remarks>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultCertificate(System.String,System.String,System.Uri,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken)">
+            <summary>
+            Fetches information about the certificate (should be cached!), and then signs a token with the info from the KeyVault
+            </summary>
+            <param name="tenantId">Tenant ID for which you want to use this token</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="vaultUri">Uri of the KeyVault</param>
+            <param name="certificateName">Name of certificate</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="cancellationToken">Use cancellation token if preferred</param>
+            <returns>Signed client assertion</returns>
+            <remarks>`GetSignedTokenWithKeyVaultKey` is perferred over this method</remarks>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultCertificate(System.Uri,System.String,System.String,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken,Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            Fetches information about the certificate, and uses remote signing to sign the token in the KeyVault
+            </summary>
+            <param name="vaultUri">Uri of the KeyVault</param>
+            <param name="certificateName">Name of certificate</param>
+            <param name="audience">Assertion audience</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="cancellationToken">Use cancellation token if preferred</param>
+            <param name="memoryCache">(optional) <see cref="T:Microsoft.Extensions.Caching.Memory.IMemoryCache"/> to cache the certificate information</param>
+            <returns>Signed client assertion</returns>
+            <remarks>Either use this method with the <paramref name="memoryCache"/> supplied, or use the <see cref="M:Smartersoft.Identity.Client.Assertion.ClientAssertionGenerator.GetSignedTokenWithKeyVaultKey(System.Collections.Generic.IDictionary{System.String,System.Object},System.Uri,System.String,Azure.Core.TokenCredential,System.Threading.CancellationToken)"/> method.</remarks>
+        </member>
+        <member name="T:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions">
+            <summary>
+            KeyVault extensions for Microsoft.Identity.Client.ConfidentialClientApplicationBuilder
+            </summary>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultCertificate(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.String,System.String,System.Uri,System.String)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="tenantId">Tenant ID for which you want to use this token</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="vaultUri">Uri of the KeyVault</param>
+            <param name="certificateName">Name of certificate</param>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultCertificate(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.String,System.String,System.Uri,System.String,Azure.Core.TokenCredential)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="tenantId">Tenant ID for which you want to use this token</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="vaultUri">Uri of the KeyVault</param>
+            <param name="certificateName">Name of certificate</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultCertificate(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.Uri,System.String)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="vaultUri">Uri of the KeyVault</param>
+            <param name="certificateName">Name of certificate</param>
+            <remarks>This method does not cache the certificate information, using <see cref="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultCertificate(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.Uri,System.String,Azure.Core.TokenCredential,Microsoft.Extensions.Caching.Memory.IMemoryCache)"/> is preferred.</remarks>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultCertificate(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.Uri,System.String,Azure.Core.TokenCredential,Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="vaultUri">Uri of the KeyVault</param>
+            <param name="certificateName">Name of certificate</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+            <param name="memoryCache">(optional) <see cref="T:Microsoft.Extensions.Caching.Memory.IMemoryCache"/> to cache the certificate information</param>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultKey(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.String,System.String,System.Uri,System.String)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="tenantId">Tenant ID for which you want to use this token</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="keyVaultKeyId">KeyId, Uri of the actual key in the KeyVault</param>
+            <param name="kid">The Base64Url encoded hash of the certificate, use GetCertificateInfoFromKeyVault</param>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultKey(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.String,System.String,System.Uri,System.String,Azure.Core.TokenCredential)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="tenantId">Tenant ID for which you want to use this token</param>
+            <param name="clientId">Client Identifier</param>
+            <param name="keyVaultKeyId">KeyId, Uri of the actual key in the KeyVault</param>
+            <param name="kid">The Base64Url encoded hash of the certificate, use GetCertificateInfoFromKeyVault</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultKey(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.Uri,System.String)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="keyVaultKeyId">KeyId, Uri of the actual key in the KeyVault</param>
+            <param name="kid">The Base64Url encoded hash of the certificate, use GetCertificateInfoFromKeyVault</param>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithKeyVaultKey(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.Uri,System.String,Azure.Core.TokenCredential)">
+            <summary>
+            Add a client assertion, while they key stays in the KeyVault
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="keyVaultKeyId">KeyId, Uri of the actual key in the KeyVault</param>
+            <param name="kid">The Base64Url encoded hash of the certificate, use GetCertificateInfoFromKeyVault</param>
+            <param name="tokenCredential">Use any TokenCredential (eg. new DefaultTokenCredential())</param>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithManagedIdentity(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.String)">
+            <summary>
+            Add a client assertion using a Managed Identity, configured as Federated Credential.
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="managedIdentityScope">The scope used for the federated credential api</param>
+            <see href="https://svrooij.io/2022/06/21/managed-identity-multi-tenant-app/">Blog post</see>
+            <remarks>This is experimental, since federated credentials are still in preview.</remarks>
+        </member>
+        <member name="M:Smartersoft.Identity.Client.Assertion.ConfidentialClientApplicationBuilderExtensions.WithManagedIdentity(Microsoft.Identity.Client.ConfidentialClientApplicationBuilder,System.String,Azure.Core.TokenCredential)">
+            <summary>
+            Add a client assertion using a Managed Identity, configured as Federated Credential.
+            </summary>
+            <param name="applicationBuilder">ConfidentialClientApplicationBuilder</param>
+            <param name="managedIdentityScope">The scope used for the federated credential api, eg. `{app-uri}/.default`</param>
+            <param name="managedIdentityCredential">Use any TokenCredential (eg. new ManagedIdentityCredential())</param>
+            <see href="https://svrooij.io/2022/06/21/managed-identity-multi-tenant-app/">Blog post</see>
+            <remarks>This is experimental, since federated credentials are still in preview.</remarks>
+        </member>
+    </members>
+</doc>

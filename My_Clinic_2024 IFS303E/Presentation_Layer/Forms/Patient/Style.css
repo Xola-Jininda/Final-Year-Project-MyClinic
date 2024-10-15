@@ -1,0 +1,93 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+ 
+    background-color: #2e7d32; /* Dark green */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it stays on top of other content */
+}
+
+    .navbar h2 {
+        margin: 0;
+    }
+
+    .navbar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+    }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+            .navbar ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 16px;
+            }
+
+                .navbar ul li a:hover {
+                    text-decoration: underline;
+                }
+
+.dashboard {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #388e3c; /* Medium green */
+    color: white;
+    padding: 20px;
+    height: calc(100vh - 50px); /* Adjusted for the navbar height */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50px; /* Adjusted for the navbar height */
+    left: 0;
+    overflow-y: auto;
+}
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .sidebar ul li {
+            margin-bottom: 20px;
+        }
+
+            .sidebar ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 16px;
+            }
+
+                .sidebar ul li a:hover {
+                    text-decoration: underline;
+                }
+
+.content {
+    margin-left: 220px; /* Adjusted for the sidebar width */
+    padding: 20px;
+    flex: 1;
+    background-color: #ffffff; /* White background for content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}

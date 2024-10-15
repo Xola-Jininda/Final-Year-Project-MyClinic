@@ -1,0 +1,73 @@
+﻿html, body {
+    height: 100%;
+    margin: 0;
+    overflow: auto; /* Allow the page to scroll */
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: flex-start; /* Align content to the top */
+    padding: 2cm; /* Space from the top */
+    min-height: 100vh; /* Ensure it takes at least full viewport height */
+}
+
+.container {
+    width: 100%; /* Ensure container spans full width */
+    max-width: 1200px; /* Optional: Limit maximum width */
+    margin-top: 20px;
+}
+
+.page-header {
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap onto multiple lines */
+    gap: 1rem; /* Space between cards */
+    justify-content: center; /* Center cards horizontally */
+    width: 100%; /* Ensure the row spans full width */
+}
+
+.card {
+    width: 18rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-bottom: 1rem; /* Space between rows of cards */
+    display: flex;
+    flex-direction: column; /* Align items vertically within the card */
+    justify-content: space-between; /* Ensure content is spread out */
+}
+
+.card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column; /* Align items vertically within the card body */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+.btn {
+    margin-top: 10px;
+    display: block; /* Ensure the button is displayed as a block element */
+    width: 100%; /* Full width of the card */
+    text-align: center; /* Center text within the button */
+}
+
+.btn-custom {
+    background-color: #3CB371; /* Green color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 0.5rem 1rem; /* Padding inside the button */
+    font-size: 1rem; /* Font size */
+    text-align: center; /* Center text */
+    display: inline-block; /* Inline block element */
+}
+
+    .btn-custom:hover {
+        background-color: #a5d6a7; /* Light green hover color */
+        color: black; /* Black text color on hover */
+    }

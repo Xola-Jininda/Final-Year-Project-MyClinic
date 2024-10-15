@@ -1,0 +1,30 @@
+﻿.grid-view {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+    .grid-view th, .grid-view td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .grid-view th {
+        background-color: #f4f4f4;
+    }
+
+    .grid-view tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .grid-view tr:hover {
+        background-color: #f1f1f1;
+    }
+
+.disabled {
+    background-color: #d3d3d3; /* Light gray color */
+    color: #a9a9a9; /* Gray text color */
+    cursor: not-allowed; /* Change cursor to indicate it is disabled */
+    border: 1px solid #a9a9a9; /* Gray border */
+}

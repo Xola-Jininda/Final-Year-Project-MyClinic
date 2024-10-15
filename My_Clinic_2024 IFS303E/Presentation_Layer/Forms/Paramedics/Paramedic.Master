@@ -1,0 +1,158 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Paramedic.master.cs" Inherits="My_Clinic_2024_IFS303E.Presentation_Layer.Forms.Paramedics.Paramedic" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Paramedic Dashboard</title>
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f4f4f4;
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    .navbar {
+        background-color: #2e7d32;
+        color: #fff;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: fixed; /* Make navbar fixed */
+        top: 0; /* Position it at the top */
+        left: 0; /* Align it to the left */
+        right: 0; /* Align it to the right */
+        z-index: 1000; /* Ensure it stays on top of other content */
+    }
+
+    .navbar h2 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .navbar .welcome-message {
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 20px;
+    }
+
+    .dashboard {
+        display: flex;
+        min-height: 100vh;
+        margin-top: 70px; /* Space for the fixed navbar */
+    }
+
+    .sidebar {
+        background-color: #fff;
+        width: 250px;
+        padding: 20px;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+        height: calc(100vh - 70px); /* Adjust height to account for navbar */
+        position: fixed;
+        top: 70px; /* Start below the navbar */
+        left: 0;
+        z-index: 1;
+        overflow-y: auto; /* Allow scrolling within sidebar if content overflows */
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        margin-bottom: 15px;
+    }
+
+    .sidebar ul li a {
+        color: #333;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .sidebar ul li a i {
+        margin-right: 10px;
+    }
+
+    .sidebar ul li a:hover,
+    .sidebar ul li a.selected {
+        background-color: #2e7d32;
+        color: #fff;
+    }
+
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-left: 250px; /* Sidebar width */
+        transition: margin-left 0.3s;
+    }
+
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 100%;
+            transform: translateX(-100%);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .content {
+            margin-left: 0;
+        }
+    }
+</style>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.querySelectorAll(".sidebar ul li a");
+            links.forEach(function (link) {
+                link.addEventListener("click", function () {
+                    links.forEach(function (l) { l.classList.remove("selected"); });
+                    link.classList.add("selected");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="navbar">
+            <h2>Paramedic Dashboard</h2>
+            <asp:Label ID="WelcomeMessage" runat="server" CssClass="welcome-message"></asp:Label>
+        </div>
+        <div class="dashboard">
+            <nav class="sidebar">
+                <ul>
+                    <li><asp:HyperLink ID="ActiveRequestsLink" runat="server" NavigateUrl="~/Presentation_Layer/Forms/Paramedics/Dash.aspx"><i class="fas fa-list"></i>Active Requests</asp:HyperLink></li>
+                    <li><asp:HyperLink ID="CompletedRequestsLink" runat="server" NavigateUrl="~/Presentation_Layer/Forms/Paramedics/Completed.aspx"><i class="fas fa-check-circle"></i>Completed Requests</asp:HyperLink></li>
+                    <li><asp:HyperLink ID="LogoutLink" runat="server" NavigateUrl="~/Default.aspx"><i class="fas fa-sign-out-alt"></i>Logout</asp:HyperLink></li>
+                </ul>
+            </nav>
+            <div class="content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
